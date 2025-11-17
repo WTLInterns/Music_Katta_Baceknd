@@ -7,11 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.example.demo.Entity.Admin;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.AuthService;
 
@@ -19,8 +23,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-@Controller
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+@RestController
 public class AuthController {
 
     @Autowired
@@ -70,8 +74,7 @@ public class AuthController {
                 "https://oauth2.googleapis.com/token",
                 HttpMethod.POST,
                 tokenRequest,
-                Map.class
-        );
+                Map.class);
 
         Map<String, Object> tokenResponse = tokenEntity.getBody();
 
@@ -92,29 +95,33 @@ public class AuthController {
                 "https://www.googleapis.com/oauth2/v3/userinfo",
                 HttpMethod.GET,
                 userInfoRequest,
-                Map.class
-        );
+                Map.class);
 
         Map<String, Object> userInfo = userInfoEntity.getBody();
 
         String email = userInfo != null && userInfo.get("email") != null ? userInfo.get("email").toString() : "";
         String name = userInfo != null && userInfo.get("name") != null ? userInfo.get("name").toString() : "";
-        String picture = userInfo != null && userInfo.get("picture") != null ? userInfo.get("picture").toString() : null;
+        String picture = userInfo != null && userInfo.get("picture") != null ? userInfo.get("picture").toString()
+                : null;
 
         // 3) Create or fetch user in DB using AuthService
         User appUser = authService.googleLoginOrRegister(email, name, picture);
 
-        // 4) Redirect back to frontend with basic info in query params (NO JWT)
-        String frontendUrl = "http://localhost:3000/login/callback" +
-                "?email=" + URLEncoder.encode(appUser.getEmail(), StandardCharsets.UTF_8) +
-                "&name=" + URLEncoder.encode(
-                        (appUser.getFirstName() != null ? appUser.getFirstName() : "") +
-                        (appUser.getLastName() != null && !appUser.getLastName().isEmpty() ? (" " + appUser.getLastName()) : ""),
-                        StandardCharsets.UTF_8
-                );
+        // 4) Redirect back to frontend with user info in query params (NO JWT)
+        StringBuilder frontendUrlBuilder = new StringBuilder("http://localhost:3000/login/callback");
+        frontendUrlBuilder.append("?email=").append(URLEncoder.encode(appUser.getEmail(), StandardCharsets.UTF_8));
+
+        String fullName = (appUser.getFirstName() != null ? appUser.getFirstName() : "") +
+                (appUser.getLastName() != null && !appUser.getLastName().isEmpty() ? (" " + appUser.getLastName())
+                        : "");
+        frontendUrlBuilder.append("&name=").append(URLEncoder.encode(fullName, StandardCharsets.UTF_8));
+
+        // Always add profile parameter, even if null
+        String profileParam = appUser.getProfile() != null ? appUser.getProfile() : "";
+        frontendUrlBuilder.append("&profile=").append(URLEncoder.encode(profileParam, StandardCharsets.UTF_8));
 
         RedirectView redirectView = new RedirectView();
-        redirectView.setUrl(frontendUrl);
+        redirectView.setUrl(frontendUrlBuilder.toString());
         return redirectView;
     }
 
@@ -128,4 +135,27 @@ public class AuthController {
         }
         return ResponseEntity.ok(user);
     }
+
+    // ---------------manually login--------------------------
+
+    @PostMapping("/register")
+    public User register(@RequestBody User user) {
+        return this.authService.registerUser(user);
+    }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return this.authService.loginUser(user);
+    }
+
+    @PostMapping("/create-admin")
+    public Admin createAdmin(@RequestBody Admin admin) {
+        return this.authService.createAdmin(admin);
+    }
+
+    @PostMapping("/login-admin")
+    public Admin adminLogin(@RequestBody Admin admin) {
+        return this.authService.adminLogin(admin);
+    }
+
 }
