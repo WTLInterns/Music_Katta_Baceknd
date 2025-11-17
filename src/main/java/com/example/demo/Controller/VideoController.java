@@ -3,7 +3,8 @@ package com.example.demo.Controller;
 import com.example.demo.Entity.Vedios;
 import com.example.demo.Request.VideoUploadRequest;
 import com.example.demo.Response.CourseWithVedio;
-import com.example.demo.Response.CourseResponse;
+import com.example.demo.Response.VideoResponse;
+// import com.example.demo.Response.CourseResponse;
 import com.example.demo.Service.VideoUploadService;
 import com.example.demo.Service.CourseService;
 import com.example.demo.Service.VedioService;
@@ -49,7 +50,7 @@ public class VideoController {
 
             courseService.addVideoToCourse(courseId, video);
 
-            CourseResponse response = new CourseResponse();
+            VideoResponse response = new VideoResponse();
             response.setVideoId(video.getVedioId());
             response.setTitle(video.getTitle());
             response.setDescription(video.getVedioDescription());

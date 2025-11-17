@@ -10,4 +10,5 @@ public class VideoResponse {
     private String videoUrl;
     private String postDate;
     private String postTime;
+    private String courseId;
 }
