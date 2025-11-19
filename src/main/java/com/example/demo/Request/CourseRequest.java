@@ -1,4 +1,4 @@
-package com.example.demo.Response;
+package com.example.demo.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,30 +7,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CourseResponse {
-    
-    private String courseId;
-
+public class CourseRequest {
     private String courseName;
-
     private String details;
-
-    private String postDate;
-
-    private String postTime;
-
     private String price; // Discounted price
-    
     private String originalPrice;
-    
     private String discountPercentage;
-    
     private String status;
-
-    private String courseImageUrl;
-
-    private String courseDuration;
-
-    // Stored as comma-separated keywords
-    private String keywords;
 }
