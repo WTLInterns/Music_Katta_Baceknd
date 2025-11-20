@@ -36,8 +36,9 @@ public class AuthService {
         if (!existingUser.getPassword().equals(user.getPassword())) {
             throw new RuntimeException("Invalid password!");
         }
+        existingUser.setAuthToken(generateAuthToken());
 
-        return existingUser;
+        return userRepo.save(existingUser);
     }
 
     // Google login: create or fetch user by email (no password check)
@@ -48,7 +49,8 @@ public class AuthService {
 
         User existingUser = userRepo.findByEmail(email);
         if (existingUser != null) {
-            return existingUser;
+            existingUser.setAuthToken(generateAuthToken());
+            return userRepo.save(existingUser);
         }
 
         User newUser = new User();
@@ -71,6 +73,8 @@ public class AuthService {
         newUser.setRole("USER");
         newUser.setPhone(null);
         newUser.setProfile(pictureUrl);
+
+        newUser.setAuthToken(generateAuthToken());
 
         return userRepo.save(newUser);
     }
@@ -104,6 +108,18 @@ public class AuthService {
         }
 
         return existingAdmin;
+    }
+
+    private static final String AUTH_TOKEN_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int AUTH_TOKEN_LENGTH = 32;
+
+    private String generateAuthToken() {
+        StringBuilder tokenBuilder = new StringBuilder(AUTH_TOKEN_LENGTH);
+        for (int i = 0; i < AUTH_TOKEN_LENGTH; i++) {
+            int index = (int) (Math.random() * AUTH_TOKEN_CHARACTERS.length());
+            tokenBuilder.append(AUTH_TOKEN_CHARACTERS.charAt(index));
+        }
+        return tokenBuilder.toString();
     }
 
 }

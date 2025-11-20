@@ -120,6 +120,11 @@ public class AuthController {
         String profileParam = appUser.getProfile() != null ? appUser.getProfile() : "";
         frontendUrlBuilder.append("&profile=").append(URLEncoder.encode(profileParam, StandardCharsets.UTF_8));
 
+        // Add authToken so frontend can store it
+        String authTokenParam = appUser.getAuthToken() != null ? appUser.getAuthToken() : "";
+        frontendUrlBuilder.append("&authToken=")
+                .append(URLEncoder.encode(authTokenParam, StandardCharsets.UTF_8));
+
         RedirectView redirectView = new RedirectView();
         redirectView.setUrl(frontendUrlBuilder.toString());
         return redirectView;

@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,26 +14,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class VideoProgress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private String userId;
+    private String id;
 
-    private String firstName;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private String lastName;
+    @ManyToOne
+    @JoinColumn(name = "video_id")
+    private Vedios video;
 
-    private String email;
+    private Double lastPositionSeconds;
 
-    private String password;
+    private Double durationSeconds;
 
-    private String role;
-
-    private String phone;
-    
-    private String profile;
-
-    private String authToken;
-    
+    private Boolean completed;
 }
