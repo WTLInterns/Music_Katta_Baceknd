@@ -1,9 +1,16 @@
 package com.example.demo.Controller;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.*;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,11 +26,7 @@ import com.example.demo.Entity.Admin;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.AuthService;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class AuthController {
 

@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.JoinColumn;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -150,7 +154,12 @@ public class CourseService {
 
     public List<CourseResponse> getAllCourses() {
         return courseRepo.findAll().stream()
-                .map(course -> new CourseResponse(
+                .map(course -> {
+                    String keywordsStr = course.getKeywords() != null && !course.getKeywords().isEmpty() 
+                        ? String.join(",", course.getKeywords())
+                        : null;
+                    
+                    return new CourseResponse(
                         course.getCourseId(),
                         course.getCourseName(),
                         course.getDetails(),
@@ -162,7 +171,9 @@ public class CourseService {
                         course.getStatus(),
                         course.getCourseImageUrl(),
                         course.getCourseDuration(),
-                        course.getKeywords() != null ? String.join(",", course.getKeywords()) : null))
+                        keywordsStr
+                    );
+                })
                 .collect(Collectors.toList());
     }
 

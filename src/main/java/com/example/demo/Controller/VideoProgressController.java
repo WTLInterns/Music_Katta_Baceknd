@@ -2,7 +2,6 @@ package com.example.demo.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,7 +14,7 @@ import com.example.demo.Request.VideoProgressRequest;
 import com.example.demo.Response.VideoProgressResponse;
 import com.example.demo.Service.VideoProgressService;
 
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/video-progress")
 public class VideoProgressController {

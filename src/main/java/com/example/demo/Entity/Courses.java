@@ -10,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.JoinColumn;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -49,6 +52,9 @@ public class Courses {
     // Cloudinary public ID for the course image
     private String courseImagePublicId;
 
+    @ElementCollection
+    @CollectionTable(name = "course_keywords", joinColumns = @JoinColumn(name = "course_id"))
+    @Column(name = "keyword")
     private List<String> keywords;
 
 
