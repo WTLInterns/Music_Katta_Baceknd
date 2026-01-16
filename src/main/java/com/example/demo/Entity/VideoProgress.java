@@ -32,5 +32,7 @@ public class VideoProgress {
 
     private Double durationSeconds;
 
+    private Double watchedSeconds;
+
     private Boolean completed;
 }

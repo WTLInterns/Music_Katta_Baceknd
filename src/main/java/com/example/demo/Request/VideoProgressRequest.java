@@ -13,5 +13,7 @@ public class VideoProgressRequest {
 
     private Double duration;
 
+    private Double watchedDeltaSeconds;
+
     private Boolean completed;
 }

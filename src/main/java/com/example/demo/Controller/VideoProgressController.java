@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Entity.VideoProgress;
 import com.example.demo.Request.VideoProgressRequest;
+import com.example.demo.Response.CourseCompletionResponse;
+import com.example.demo.Response.CourseProgressResponse;
+import com.example.demo.Response.CourseTimeCompletionResponse;
 import com.example.demo.Response.VideoProgressResponse;
 import com.example.demo.Service.VideoProgressService;
 
@@ -29,6 +32,7 @@ public class VideoProgressController {
                 request.getVideoId(),
                 request.getCurrentTime(),
                 request.getDuration(),
+                request.getWatchedDeltaSeconds(),
                 request.getCompleted());
 
         VideoProgressResponse response = new VideoProgressResponse();
@@ -36,8 +40,33 @@ public class VideoProgressController {
         response.setEmail(progress.getUser().getEmail());
         response.setLastPositionSeconds(progress.getLastPositionSeconds());
         response.setDurationSeconds(progress.getDurationSeconds());
+        response.setWatchedSeconds(progress.getWatchedSeconds());
         response.setCompleted(progress.getCompleted());
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/course-completion")
+    public ResponseEntity<CourseCompletionResponse> getCourseCompletion(
+            @RequestParam("email") String email,
+            @RequestParam("courseId") String courseId) {
+        CourseCompletionResponse response = videoProgressService.getCourseCompletion(email, courseId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/course-time-completion")
+    public ResponseEntity<CourseTimeCompletionResponse> getCourseTimeCompletion(
+            @RequestParam("email") String email,
+            @RequestParam("courseId") String courseId) {
+        CourseTimeCompletionResponse response = videoProgressService.getCourseTimeCompletion(email, courseId);
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/course-progress")
+    public ResponseEntity<CourseProgressResponse> getCourseProgress(
+            @RequestParam("email") String email,
+            @RequestParam("courseId") String courseId) {
+        CourseProgressResponse response = videoProgressService.getCourseProgress(email, courseId);
         return ResponseEntity.ok(response);
     }
 
@@ -55,6 +84,7 @@ public class VideoProgressController {
         response.setEmail(progress.getUser().getEmail());
         response.setLastPositionSeconds(progress.getLastPositionSeconds());
         response.setDurationSeconds(progress.getDurationSeconds());
+        response.setWatchedSeconds(progress.getWatchedSeconds());
         response.setCompleted(progress.getCompleted());
 
         return ResponseEntity.ok(response);
