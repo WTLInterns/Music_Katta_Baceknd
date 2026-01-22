@@ -26,7 +26,7 @@ import com.example.demo.Entity.Admin;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.AuthService;
 
-// @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+// @CrossOrigin(origins = "https://ddhavalmulay.com", allowCredentials = "true")
 @RestController
 public class AuthController {
 
@@ -83,7 +83,7 @@ public class AuthController {
 
         if (tokenResponse == null || !tokenResponse.containsKey("access_token")) {
             RedirectView errorView = new RedirectView();
-            errorView.setUrl("http://localhost:3000/login/callback?error=google_token_failed");
+            errorView.setUrl("https://ddhavalmulay.com/login/callback?error=google_token_failed");
             return errorView;
         }
 
@@ -111,7 +111,7 @@ public class AuthController {
         User appUser = authService.googleLoginOrRegister(email, name, picture);
 
         // 4) Redirect back to frontend with user info in query params (NO JWT)
-        StringBuilder frontendUrlBuilder = new StringBuilder("http://localhost:3000/login/callback");
+        StringBuilder frontendUrlBuilder = new StringBuilder("https://ddhavalmulay.com/login/callback");
         frontendUrlBuilder.append("?email=").append(URLEncoder.encode(appUser.getEmail(), StandardCharsets.UTF_8));
 
         String fullName = (appUser.getFirstName() != null ? appUser.getFirstName() : "") +
