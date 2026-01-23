@@ -20,7 +20,7 @@ Returns the created course object with Cloudinary image URL if an image was uplo
 
 #### Example using curl:
 ```bash
-curl -X POST "https://api.ddhavalmulay.com/course/create-course-with-image" \
+curl -X POST "http://localhost:8085/course/create-course-with-image" \
   -F "courseName=Music Theory Basics" \
   -F "details=Learn the fundamentals of music theory" \
   -F "price=499" \
@@ -46,7 +46,7 @@ Returns the updated course object with Cloudinary image URL if an image was uplo
 
 #### Example using curl:
 ```bash
-curl -X PUT "https://api.ddhavalmulay.com/course/update-course/123e4567-e89b-12d3-a456-426614174000" \
+curl -X PUT "http://localhost:8085/course/update-course/123e4567-e89b-12d3-a456-426614174000" \
   -F "courseName=Advanced Music Theory" \
   -F "details=Advanced concepts in music theory" \
   -F "price=799" \
@@ -66,7 +66,7 @@ Returns a success message if the course was deleted.
 
 #### Example using curl:
 ```bash
-curl -X DELETE "https://api.ddhavalmulay.com/course/delete-course/123e4567-e89b-12d3-a456-426614174000"
+curl -X DELETE "http://localhost:8085/course/delete-course/123e4567-e89b-12d3-a456-426614174000"
 ```
 
 ## Database Changes

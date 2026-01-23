@@ -12,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,7 @@ import com.example.demo.Entity.Admin;
 import com.example.demo.Entity.User;
 import com.example.demo.Service.AuthService;
 
-// @CrossOrigin(origins = "https://ddhavalmulay.com", allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 public class AuthController {
 

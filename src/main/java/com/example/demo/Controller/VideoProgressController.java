@@ -17,7 +17,7 @@ import com.example.demo.Response.CourseTimeCompletionResponse;
 import com.example.demo.Response.VideoProgressResponse;
 import com.example.demo.Service.VideoProgressService;
 
-// @CrossOrigin(origins = "https://ddhavalmulay.com", allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @RestController
 @RequestMapping("/api/video-progress")
 public class VideoProgressController {
